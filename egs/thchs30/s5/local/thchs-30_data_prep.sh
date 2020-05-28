@@ -27,9 +27,9 @@ for x in train dev test; do
       spkid=`echo $nn | awk -F"_" '{print "" $1}'`
       spk_char=`echo $spkid | sed 's/\([A-Z]\).*/\1/'`
       spk_num=`echo $spkid | sed 's/[A-Z]\([0-9]\)/\1/'`
-      spkid=$(printf '%s%.2d' "$spk_char" "$spk_num")
+      spkid=$(printf '%s%.2d' "$spk_char" "${spk_num#0}")
       utt_num=`echo $nn | awk -F"_" '{print $2}'`
-      uttid=$(printf '%s%.2d_%.3d' "$spk_char" "$spk_num" "$utt_num")
+      uttid=$(printf '%s%.2d_%.3d' "$spk_char" "${spk_num#0}" "${utt_num#0}")
       echo $uttid $corpus_dir/$x/$nn.wav >> wav.scp
       echo $uttid $spkid >> utt2spk
       echo $uttid `sed -n 1p $corpus_dir/data/$nn.wav.trn` >> word.txt
